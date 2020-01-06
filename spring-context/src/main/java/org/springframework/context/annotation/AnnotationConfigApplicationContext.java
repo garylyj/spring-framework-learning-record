@@ -49,20 +49,30 @@ import org.springframework.util.Assert;
  * @see AnnotatedBeanDefinitionReader
  * @see ClassPathBeanDefinitionScanner
  * @see org.springframework.context.support.GenericXmlApplicationContext
+ *
+ * 通过注解的方式配置应用程序上下文,可以使用register(class..)一个一个注册类，也允许使用#scan(String…)进行类路径扫描
+ * 如果有多个配置类，后面类中定义的Bean方法将覆盖前面类中定义的方法。
  */
 public class AnnotationConfigApplicationContext extends GenericApplicationContext implements AnnotationConfigRegistry {
 
+	//带注解的bean 读取器
 	private final AnnotatedBeanDefinitionReader reader;
 
+	//类路径 扫描器
 	private final ClassPathBeanDefinitionScanner scanner;
 
 
 	/**
 	 * Create a new AnnotationConfigApplicationContext that needs to be populated
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
+	 *
+	 * 创建一个新的需要填充的注释configapplicationcontext
+	 * 通过注册调用，然后手动刷新。
 	 */
 	public AnnotationConfigApplicationContext() {
+		//new 一个 带注解的bean 读取器
 		this.reader = new AnnotatedBeanDefinitionReader(this);
+		//new 一个类路径扫描器
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
 
@@ -81,10 +91,21 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * from the given annotated classes and automatically refreshing the context.
 	 * @param annotatedClasses one or more annotated classes,
 	 * e.g. {@link Configuration @Configuration} classes
+	 *
+	 * 创建一个新的AnnotationConfigApplicationContext,
+	 *                            把注解标注的类注册到容器成一个bean,然后刷新上下文.
+	 *
+	 *
+	 *
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... annotatedClasses) {
+		//初始化注解类读取器和类路径扫描器
 		this();
+
+		//注册带注解的class
 		register(annotatedClasses);
+
+		//刷新
 		refresh();
 	}
 
@@ -151,9 +172,16 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * e.g. {@link Configuration @Configuration} classes
 	 * @see #scan(String...)
 	 * @see #refresh()
+	 *
+	 * 注册一个或多个 待处理的 带注解的class类
+	 * 请注意,上下文处理完新类这后必须调用refresh()
+	 *
 	 */
 	public void register(Class<?>... annotatedClasses) {
+		//判断配置文件不为空 (至少指定一个带注解的类)
 		Assert.notEmpty(annotatedClasses, "At least one annotated class must be specified");
+
+		//在读取器中注册配置类
 		this.reader.register(annotatedClasses);
 	}
 

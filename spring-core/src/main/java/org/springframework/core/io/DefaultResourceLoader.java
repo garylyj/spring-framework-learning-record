@@ -44,6 +44,8 @@ import org.springframework.util.StringUtils;
  * @since 10.03.2004
  * @see FileSystemResourceLoader
  * @see org.springframework.context.support.ClassPathXmlApplicationContext
+ *
+ * 默认资源加载器
  */
 public class DefaultResourceLoader implements ResourceLoader {
 

@@ -25,6 +25,12 @@ import org.springframework.util.ResourceUtils;
  * is required to provide this functionality, plus extended
  * {@link org.springframework.core.io.support.ResourcePatternResolver} support.
  *
+ * 加载资源的策略接口(e..类路径或文件系统
+ * 参考资料)。一个{@link org.springframework.context.ApplicationContext}
+ * 需要提供此功能，并进行了扩展
+ * {@link org.springframework.core.io.support。ResourcePatternResolver}的支持。
+ *
+ *
  * <p>{@link DefaultResourceLoader} is a standalone implementation that is
  * usable outside an ApplicationContext, also used by {@link ResourceEditor}.
  *
@@ -63,6 +69,8 @@ public interface ResourceLoader {
 	 * @see #CLASSPATH_URL_PREFIX
 	 * @see Resource#exists()
 	 * @see Resource#getInputStream()
+	 *
+	 * 返回一个指定位置上资源的句柄
 	 */
 	Resource getResource(String location);
 
@@ -75,6 +83,9 @@ public interface ResourceLoader {
 	 * (only {@code null} if even the system ClassLoader isn't accessible)
 	 * @see org.springframework.util.ClassUtils#getDefaultClassLoader()
 	 * @see org.springframework.util.ClassUtils#forName(String, ClassLoader)
+	 *
+	 * 公开这个ResourceLoader使用的类装入器。
+	 * 需要直接访问类加载器的客户机可以使用ResourceLoader以统一的方式访问类加载器，而不是依赖于线程上下文类加载器。
 	 */
 	@Nullable
 	ClassLoader getClassLoader();

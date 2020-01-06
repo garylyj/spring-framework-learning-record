@@ -129,9 +129,13 @@ public class AnnotatedBeanDefinitionReader {
 	 * annotated class more than once has no additional effect.
 	 * @param annotatedClasses one or more annotated classes,
 	 * e.g. {@link Configuration @Configuration} classes
+	 *
+	 *	注册一个或多个 待处理的 带注解的class类
+	 *  register方法是幂等的,调用多次结果一样.
 	 */
 	public void register(Class<?>... annotatedClasses) {
 		for (Class<?> annotatedClass : annotatedClasses) {
+			//注册
 			registerBean(annotatedClass);
 		}
 	}
@@ -140,6 +144,8 @@ public class AnnotatedBeanDefinitionReader {
 	 * Register a bean from the given bean class, deriving its metadata from
 	 * class-declared annotations.
 	 * @param annotatedClass the class of the bean
+	 *
+	 *                       注册来自给定bean类的bean，从类声明的注释推导其元数据。
 	 */
 	public void registerBean(Class<?> annotatedClass) {
 		doRegisterBean(annotatedClass, null, null, null);
@@ -209,6 +215,8 @@ public class AnnotatedBeanDefinitionReader {
 	 * @param definitionCustomizers one or more callbacks for customizing the
 	 * factory's {@link BeanDefinition}, e.g. setting a lazy-init or primary flag
 	 * @since 5.0
+	 *
+	 *  注册来自给定bean类的bean，从类声明的注释推导其元数据
 	 */
 	<T> void doRegisterBean(Class<T> annotatedClass, @Nullable Supplier<T> instanceSupplier, @Nullable String name,
 			@Nullable Class<? extends Annotation>[] qualifiers, BeanDefinitionCustomizer... definitionCustomizers) {

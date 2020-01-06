@@ -87,6 +87,14 @@ import org.springframework.util.StringUtils;
  * and {@link BeanDefinitionRegistry} interfaces: a full-fledged bean factory
  * based on bean definition metadata, extensible through post-processors.
  *
+ *  spring 默认实现了 ConfigurableListableBeanFactory 和 BeanDifinitionRegistry的接口.
+ *  一个完全成熟的基于bean定义元数据的bean工厂，可以通过后处理器扩展。
+ *
+ *
+ *
+ *
+ *
+ *
  * <p>Typical usage is registering all bean definitions first (possibly read
  * from a bean definition file), before accessing beans. Bean lookup by name
  * is therefore an inexpensive operation in a local bean definition table,
