@@ -176,6 +176,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	private final Map<Class<?>, String[]> singletonBeanNamesByType = new ConcurrentHashMap<>(64);
 
 	/** List of bean definition names, in registration order. */
+	/** bean定义名称列表，按注册顺序排列。 */
 	private volatile List<String> beanDefinitionNames = new ArrayList<>(256);
 
 	/** List of names of manually registered singletons, in registration order. */
@@ -824,12 +825,20 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		// Iterate over a copy to allow for init methods which in turn register new bean definitions.
 		// While this may not be part of the regular factory bootstrap, it does otherwise work fine.
+		/** 获取所有的beanDefinition 名称*/
 		List<String> beanNames = new ArrayList<>(this.beanDefinitionNames);
 
 		// Trigger initialization of all non-lazy singleton beans...
+		/** 循环所有的bean定义名称*/
 		for (String beanName : beanNames) {
+
+			/** 合并我们的bean定义*/
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
+
+			/** 如果bean定义不是抽象的  是单例的  不是懒加载的 */
 			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
+
+				/** 如果是bean工厂的bean定义*/
 				if (isFactoryBean(beanName)) {
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 					if (bean instanceof FactoryBean) {
@@ -849,7 +858,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						}
 					}
 				}
-				else {
+				else { /** 如果不是bean工厂的bean定义*/
 					getBean(beanName);
 				}
 			}

@@ -99,13 +99,14 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 *
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... annotatedClasses) {
+		//由于它有父类,这里会先递归调用父类的构造器,在GenericApplicationContext父类构造器中,new了一个DefaultListableBeanFactory.
 		//初始化注解类读取器和类路径扫描器
 		this();
 
-		//注册带注解的class
+		//注册配置类
 		register(annotatedClasses);
 
-		//刷新
+		//==============>>>>>调用 父类的父类 的刷新方法 最主要的方法  <<<<<================
 		refresh();
 	}
 
